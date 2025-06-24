@@ -1,0 +1,111 @@
+name: Publish Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run in dry-run mode (no actual publishing)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for conventional commits
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npx lerna run prepare --stream
+
+      # - name: Run tests
+      #   run: npx lerna run test --stream
+      #   continue-on-error: true
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          # Check if there are any changes that would trigger a version bump
+          if npx lerna changed --json | jq -e '. | length > 0' > /dev/null; then
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in packages"
+            echo "Packages that would be published:"
+            npx lerna changed
+          else
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in packages"
+          fi
+
+      - name: Version packages (Dry Run)
+        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == true
+        run: |
+          echo "DRY RUN: Would version packages with conventional commits"
+          npx lerna version --conventional-commits --no-push --no-git-tag-version --dry-run
+
+      - name: Version packages
+        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
+        run: |
+          npx lerna version --conventional-commits --yes --no-push --no-git-tag-version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish packages (Dry Run)
+        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == true
+        run: |
+          echo "DRY RUN: Would publish packages to npm"
+          npx lerna publish from-package --dry-run
+
+      - name: Publish packages
+        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
+        run: |
+          npx lerna publish from-package --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push version changes and tags
+        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
+        run: |
+          git add .
+          git commit -m "chore(release): publish packages [skip ci]" || exit 0
+          git push origin main
+          git push --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        if: steps.check-changes.outputs.has-changes == 'true'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          body: |
+            Automated release of packages from commit ${{ github.sha }}
+            
+            ## Changes
+            This release includes updates to one or more packages in the monorepo.
+            
+            See individual package changelogs for detailed information.
+          draft: false
+          prerelease: false
