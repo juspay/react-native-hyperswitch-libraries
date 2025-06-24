@@ -60,7 +60,7 @@ jobs:
         if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == true
         run: |
           echo "DRY RUN: Would version packages with conventional commits"
-          npx lerna version --conventional-commits --no-push --no-git-tag-version --dry-run
+          npx lerna version --conventional-commits --no-push --no-git-tag-version --dryRun
 
       - name: Version packages
         if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
