@@ -2,12 +2,6 @@ name: Publish Packages
 
 on:
   workflow_dispatch:
-    inputs:
-      dry_run:
-        description: 'Run in dry-run mode (no actual publishing)'
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   publish:
@@ -56,36 +50,22 @@ jobs:
             echo "No changes detected in packages"
           fi
 
-      - name: Version packages (Dry Run)
-        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == true
-        run: |
-          echo "DRY RUN: Would version packages with conventional commits"
-          echo "The following packages would be versioned:"
-          npx lerna changed
-          echo "Note: In dry run mode, no actual versioning is performed"
-
       - name: Version packages
-        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
+        if: steps.check-changes.outputs.has-changes == 'true'
         run: |
           npx lerna version --conventional-commits --yes --no-push --no-git-tag-version
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish packages (Dry Run)
-        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == true
-        run: |
-          echo "DRY RUN: Would publish packages to npm"
-          npx lerna publish from-package --dry-run
-
       - name: Publish packages
-        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
+        if: steps.check-changes.outputs.has-changes == 'true'
         run: |
           npx lerna publish from-package --yes
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Push version changes and tags
-        if: steps.check-changes.outputs.has-changes == 'true' && inputs.dry_run == false
+        if: steps.check-changes.outputs.has-changes == 'true'
         run: |
           git add .
           git commit -m "chore(release): publish packages [skip ci]" || exit 0
