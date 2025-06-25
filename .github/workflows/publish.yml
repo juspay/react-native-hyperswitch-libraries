@@ -29,9 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build packages
-        run: npx lerna run prepare --stream
-
       # - name: Run tests
       #   run: npx lerna run test --stream
       #   continue-on-error: true
@@ -50,29 +47,13 @@ jobs:
             echo "No changes detected in packages"
           fi
 
-      - name: Version packages
-        if: steps.check-changes.outputs.has-changes == 'true'
-        run: |
-          npx lerna version --conventional-commits --yes --no-push --no-git-tag-version
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish packages
         if: steps.check-changes.outputs.has-changes == 'true'
         run: |
-          npx lerna publish from-package --yes
+          npx lerna publish --conventional-commits --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-
-      - name: Push version changes and tags
-        if: steps.check-changes.outputs.has-changes == 'true'
-        run: |
-          git add .
-          git commit -m "chore(release): publish packages [skip ci]" || exit 0
-          git push origin main
-          git push --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         if: steps.check-changes.outputs.has-changes == 'true'

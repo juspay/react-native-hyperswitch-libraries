@@ -73,6 +73,9 @@
     "react": "*",
     "react-native": "*"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "workspaces": [
     "example"
   ],
