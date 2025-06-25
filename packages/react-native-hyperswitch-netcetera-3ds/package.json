@@ -64,7 +64,6 @@
     "react": "*",
     "react-native": "*"
   },
-  "private": true,
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [

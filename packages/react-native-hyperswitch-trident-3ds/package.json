@@ -73,7 +73,6 @@
     "react": "*",
     "react-native": "*"
   },
-  "private": true,
   "workspaces": [
     "example"
   ],
