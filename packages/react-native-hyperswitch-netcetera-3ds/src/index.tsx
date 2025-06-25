@@ -1,5 +1,7 @@
 import { NativeModules } from 'react-native';
 
+console.log('react-native-netcetera-3ds loaded');
+
 const HyperswitchNetcetera3ds = NativeModules.HyperswitchNetcetera3ds || null;
 const isAvailable = HyperswitchNetcetera3ds && HyperswitchNetcetera3ds.initialiseNetceteraSDK;
 

@@ -1,5 +1,7 @@
 import { NativeModules } from 'react-native';
 
+console.log('react-native-trident-3ds loaded');
+
 const HyperswitchTrident3ds = NativeModules.HyperswitchTrident3ds || null;
 const isAvailable =
   HyperswitchTrident3ds && HyperswitchTrident3ds.initialiseSDK;

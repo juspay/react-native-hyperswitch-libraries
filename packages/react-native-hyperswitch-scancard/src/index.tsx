@@ -6,6 +6,8 @@ import {
   ViewStyle,
 } from 'react-native';
 
+console.log('react-native-scancard loaded');
+
 const HyperswitchScancard = NativeModules.HyperswitchScancard || null;
 
 const isAvailable = HyperswitchScancard && HyperswitchScancard.launchScanCard;
