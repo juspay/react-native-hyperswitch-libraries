@@ -1,5 +1,5 @@
 {
-  "name": "@shivam2509/react-native-hyperswitch-scancard",
+  "name": "react-native-hyperswitch-scancard",
   "version": "1.0.0",
   "description": "React Native Hyperswitch ScanCard",
   "main": "lib/commonjs/index",
@@ -64,9 +64,7 @@
     "react": "*",
     "react-native": "*"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [

@@ -1,5 +1,5 @@
 {
-  "name": "@shivam2509/react-native-hyperswitch-samsung-pay",
+  "name": "react-native-hyperswitch-samsung-pay",
   "version": "1.0.0",
   "description": "React Native Hyperswitch Samsung Pay",
   "main": "lib/commonjs/index",
@@ -64,9 +64,7 @@
     "react": "*",
     "react-native": "*"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [

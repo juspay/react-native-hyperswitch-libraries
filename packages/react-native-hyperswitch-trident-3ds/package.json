@@ -1,5 +1,5 @@
 {
-  "name": "@shivam2509/react-native-hyperswitch-trident-3ds",
+  "name": "react-native-hyperswitch-trident-3ds",
   "version": "1.0.0",
   "description": "React Native Hyperswitch Trident 3DS",
   "source": "./src/index.tsx",
@@ -73,9 +73,7 @@
     "react": "*",
     "react-native": "*"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "workspaces": [
     "example"
   ],
