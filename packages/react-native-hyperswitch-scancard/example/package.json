@@ -1,6 +1,6 @@
 {
-  "name": "react-native-hyperswitch-scancard-example",
-  "description": "Example app for react-native-hyperswitch-scancard",
+  "name": "react-native-scancard-example",
+  "description": "Example app for react-native-scancard",
   "version": "0.0.1",
   "private": true,
   "scripts": {
