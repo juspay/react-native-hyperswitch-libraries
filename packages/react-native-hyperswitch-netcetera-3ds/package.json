@@ -1,6 +1,6 @@
 {
   "name": "react-native-netcetera-3ds",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native Hyperswitch Netcetera 3DS",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
