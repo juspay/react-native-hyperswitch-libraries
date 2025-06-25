@@ -1,6 +1,6 @@
 {
   "name": "react-native-hyperswitch-samsung-pay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Hyperswitch Samsung Pay",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
