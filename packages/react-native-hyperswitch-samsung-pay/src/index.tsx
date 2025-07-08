@@ -9,8 +9,6 @@ type cardBrandType = {
 
 import { NativeModules, Platform } from 'react-native';
 
-console.log('react-native-samsung-pay loaded');
-
 const LINKING_ERROR =
   `The package 'hyperswitch-samsung-pay' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
