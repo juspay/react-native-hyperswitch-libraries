@@ -12,10 +12,10 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/25harsh/react-native-hyperswitch-netcetera-3ds.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/Shivam25092001/react-native-hyperswitch-libraries.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/Source/**/*.{h,m,mm,swift}"
-  s.vendored_frameworks = "ios/Frameworks/ThreeDS_SDK.xcframework"
+  s.source_files = "packages/react-native-hyperswitch-netcetera-3ds/ios/Source/**/*.{h,m,mm,swift}"
+  s.vendored_frameworks = "packages/react-native-hyperswitch-netcetera-3ds/ios/Frameworks/ThreeDS_SDK.xcframework"
   
   s.dependency "React-Core"
 

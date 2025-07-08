@@ -38,7 +38,6 @@ class HyperswitchTrident3ds: NSObject {
                           _ cardNetwork: String,
                           _ callback: @escaping RCTResponseSenderBlock) {
     do {
-      // TODO: remove `getDirectoryServerId` using card-network once TridentSDK is fixed
       let _directoryServerId = try tridentSdk.getDirectoryServerId(cardNetwork: cardNetwork.uppercased(with: .autoupdatingCurrent))
       let transaction = try tridentSdk.createTransaction(
         directoryServerId: _directoryServerId,
