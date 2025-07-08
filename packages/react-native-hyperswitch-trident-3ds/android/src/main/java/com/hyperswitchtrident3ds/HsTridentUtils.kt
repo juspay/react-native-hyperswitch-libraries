@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import `in`.juspay.trident.core.ThreeDS2Service.Companion.getDirectoryServerId
 
 
 class HsTridentUtils {
@@ -89,12 +90,12 @@ class HsTridentUtils {
     }
   }
 
-  fun generateAReqParams(activity: Activity?, messageVersion: String, directoryServerId: String, rnCallback: Callback) {
+  fun generateAReqParams(activity: Activity?, messageVersion: String, directoryServerId: String, cardNetwork:String, rnCallback: Callback) {
     val outerStatusMapForError = Arguments.createMap()
 
     try {
       threeDS2Service.createTransaction(
-        directoryServerID = directoryServerId,
+        directoryServerID = getDirectoryServerId(cardNetwork),
         messageVersion = messageVersion,
         onTransaction = { sdkTransaction ->
           this.transaction = sdkTransaction

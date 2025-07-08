@@ -36,10 +36,10 @@ class HyperswitchTrident3dsModule(reactContext: ReactApplicationContext) : React
   fun generateAReqParams(
     messageVersion: String,
     directoryServerId: String,
-    cardNetwork: String?,
+    cardNetwork: String,
     callback: Callback
   ) {
-    hsTridentUtils.generateAReqParams(currentActivity, messageVersion, directoryServerId, callback)
+    hsTridentUtils.generateAReqParams(currentActivity, messageVersion, directoryServerId, cardNetwork, callback)
   }
 
   @ReactMethod
