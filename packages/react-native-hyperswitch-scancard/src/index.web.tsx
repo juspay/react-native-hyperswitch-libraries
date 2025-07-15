@@ -4,9 +4,8 @@ declare const window: any;
 
 const isAvailable =
   typeof window !== 'undefined' &&
-  window.webkit !== undefined &&
-  window.webkit.messageHandlers &&
-  window.webkit.messageHandlers.launchScanCard;
+  (window.webkit?.messageHandlers?.launchScanCard ||
+    window.AndroidInterface?.launchScanCard);
 
 interface MessageEvent {
   data: any;
@@ -46,7 +45,13 @@ function launchScanCard(callback: (data: ScanCardReturnType) => void): void {
     };
 
     window.addEventListener('message', handleMessage);
-    window.webkit.messageHandlers.launchScanCard.postMessage('launchScanCard');
+    if (window.webkit?.messageHandlers?.launchScanCard) {
+      window.webkit.messageHandlers.launchScanCard.postMessage(
+        'launchScanCard'
+      );
+    } else if (window.AndroidInterface?.launchScanCard) {
+      window.AndroidInterface.launchScanCard('launchScanCard');
+    }
   }
 }
 
