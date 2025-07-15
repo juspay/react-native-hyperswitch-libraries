@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.platforms            = { :ios => "13.0" }
   s.swift_version        = '5.0'
   s.requires_arc         = true
-  s.source               = { :git => "https://github.com/Shivam25092001/react-native-hyperswitch-libraries.git", :tag => "#{s.version}" }
+  s.source               = { :git => "https://github.com/Shivam25092001/react-native-hyperswitch-libraries.git", :tag => "react-native-hyperswitch-scancard@#{s.version}" }
   s.frameworks           = 'Foundation', 'UIKit'
   s.weak_framework       = 'AVKit', 'CoreML', 'VideoToolbox', 'Vision', 'AVFoundation'
   s.source_files         = "packages/react-native-hyperswitch-scancard/ios/Source/**/*.{h,m,mm,swift}"
